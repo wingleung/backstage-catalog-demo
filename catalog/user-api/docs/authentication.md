@@ -165,3 +165,47 @@ curl -X POST http://localhost:3000/v1/auth/refresh \
   "retryAfter": 900
 }
 ```
+
+## Authentication Flow Diagram
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Client
+    participant User API
+    participant Redis
+    participant Database
+
+    User->>Client: Enter credentials
+    Client->>User API: POST /auth/login
+    User API->>Database: Verify user
+    Database-->>User API: User found
+    User API->>User API: Generate JWT tokens
+    User API->>Redis: Store refresh token
+    User API-->>Client: Access + Refresh tokens
+    Client->>User API: GET /users/me (with access token)
+    User API->>User API: Verify JWT
+    User API-->>Client: User data
+    
+    Note over Client,User API: After 15 minutes...
+    
+    Client->>User API: POST /auth/refresh (with refresh token)
+    User API->>Redis: Validate refresh token
+    Redis-->>User API: Valid
+    User API->>User API: Generate new tokens
+    User API-->>Client: New access + refresh tokens
+```
+
+## Token Lifecycle
+
+```mermaid
+stateDiagram-v2
+    [*] --> Issued: User logs in
+    Issued --> Active: Token valid
+    Active --> Expired: 15 minutes elapsed
+    Active --> Revoked: User logs out
+    Expired --> Refreshed: Refresh token used
+    Refreshed --> Active: New token issued
+    Revoked --> [*]
+    Expired --> [*]: Refresh token expired
+```

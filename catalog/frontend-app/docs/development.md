@@ -274,3 +274,64 @@ test: add tests for dashboard component
 5. Request review from team
 6. Address feedback
 7. Merge when approved
+
+## Application Architecture
+
+```mermaid
+graph TB
+    subgraph "Frontend App"
+        A[React Components] --> B[Redux Store]
+        A --> C[React Router]
+        A --> D[API Services]
+        D --> E[Axios Client]
+    end
+    
+    subgraph "Backend Services"
+        F[User API]
+        G[Payment Service]
+    end
+    
+    E -->|HTTP| F
+    E -->|HTTP| G
+    
+    B --> H[Local Storage]
+    B --> I[Session Storage]
+```
+
+## Component Hierarchy
+
+```mermaid
+graph TD
+    A[App.tsx] --> B[Header]
+    A --> C[Router]
+    A --> D[Footer]
+    
+    C --> E[Dashboard Page]
+    C --> F[Profile Page]
+    C --> G[Settings Page]
+    
+    E --> H[MetricCard]
+    E --> I[ActivityFeed]
+    E --> J[QuickActions]
+    
+    F --> K[ProfileForm]
+    F --> L[AvatarUpload]
+```
+
+## State Management Flow
+
+```mermaid
+sequenceDiagram
+    participant Component
+    participant Action
+    participant Reducer
+    participant Store
+    participant API
+
+    Component->>Action: Dispatch action
+    Action->>API: Fetch data
+    API-->>Action: Return data
+    Action->>Reducer: Pass data
+    Reducer->>Store: Update state
+    Store-->>Component: Re-render with new state
+```

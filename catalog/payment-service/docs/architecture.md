@@ -55,3 +55,38 @@ Implements technical capabilities like persistence, external integrations, and e
 5. Webhook confirms payment status
 6. Event published to Kafka
 7. Response returned to client
+
+## System Flow Diagram
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant API Gateway
+    participant Payment Service
+    participant Stripe
+    participant Database
+    participant Kafka
+
+    Client->>API Gateway: POST /payments
+    API Gateway->>Payment Service: Create Payment
+    Payment Service->>Database: Store Transaction
+    Payment Service->>Stripe: Process Payment
+    Stripe-->>Payment Service: Payment Confirmed
+    Payment Service->>Database: Update Status
+    Payment Service->>Kafka: Publish Event
+    Payment Service-->>API Gateway: Return Response
+    API Gateway-->>Client: Payment Success
+```
+
+## Component Architecture
+
+```mermaid
+graph TD
+    A[API Gateway] -->|HTTP| B[Payment Service]
+    B -->|Query/Store| C[PostgreSQL]
+    B -->|Cache| D[Redis]
+    B -->|Process Payment| E[Stripe API]
+    B -->|Publish Events| F[Kafka]
+    F -->|Subscribe| G[Notification Service]
+    F -->|Subscribe| H[Analytics Service]
+```
