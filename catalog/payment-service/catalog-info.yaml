@@ -1,0 +1,18 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: payment-service
+  description: Handles all payment processing and transaction management
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+    backstage.io/source-location: url:https://github.com/wingleung/backstage-catalog-demo/tree/main/catalog/payment-service/
+    backstage.io/adr-location: https://github.com/wingleung/backstage-catalog-demo/tree/main/catalog/payment-service/docs/adr
+  tags:
+    - payments
+    - backend
+    - nodejs
+spec:
+  type: service
+  lifecycle: production
+  owner: guests
+  system: platform

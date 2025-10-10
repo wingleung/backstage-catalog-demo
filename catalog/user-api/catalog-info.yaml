@@ -1,0 +1,43 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: user-api
+  description: RESTful API for user management and authentication
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+    backstage.io/source-location: url:https://github.com/wingleung/backstage-catalog-demo/tree/main/catalog/user-api/
+    backstage.io/adr-location: https://github.com/wingleung/backstage-catalog-demo/tree/main/catalog/user-api/docs/adr
+  tags:
+    - api
+    - authentication
+    - backend
+spec:
+  type: service
+  lifecycle: production
+  owner: guests
+  system: platform
+  providesApis:
+    - user-rest-api
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: user-rest-api
+  description: User Management REST API
+spec:
+  type: openapi
+  lifecycle: production
+  owner: guests
+  system: platform
+  definition: |
+    openapi: 3.0.0
+    info:
+      title: User API
+      version: 1.0.0
+    paths:
+      /users:
+        get:
+          summary: List users
+          responses:
+            '200':
+              description: Success

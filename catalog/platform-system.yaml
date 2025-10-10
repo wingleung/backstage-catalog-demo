@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: platform
+  description: Core platform system containing all customer-facing services
+  tags:
+    - production
+    - core
+spec:
+  owner: guests
+  domain: customer-experience
