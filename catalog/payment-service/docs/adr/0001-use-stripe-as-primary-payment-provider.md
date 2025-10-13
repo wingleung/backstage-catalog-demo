@@ -68,3 +68,19 @@ We will use **Stripe** as our primary payment provider.
 - **Pros**: Enterprise-grade, excellent international support
 - **Cons**: Higher pricing, more complex integration
 - **Decision**: Rejected due to complexity and cost
+
+## Documentation Standards
+
+We recommend using Mermaid diagrams to visualize payment flows. Here's an example of how to document Mermaid syntax:
+
+````markdown
+```mermaid
+graph LR
+    Client -->|POST /charge| API
+    API -->|Create Charge| Stripe
+    Stripe -->|Response| API
+    API -->|Result| Client
+```
+````
+
+This allows you to show diagram examples in documentation without them being auto-rendered.
