@@ -83,4 +83,14 @@ graph LR
 ```
 ````
 
+Would turn into
+
+```mermaid
+graph LR
+    Client -->|POST /charge| API
+    API -->|Create Charge| Stripe
+    Stripe -->|Response| API
+    API -->|Result| Client
+```
+
 This allows you to show diagram examples in documentation without them being auto-rendered.
